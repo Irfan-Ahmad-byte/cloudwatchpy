@@ -1,6 +1,6 @@
 [project]
 name = "cloudwatchpy"
-version = "0.1.0"
+version = "0.1.0.0"
 description = "Structured Python logger for AWS CloudWatch with ASGI/WSGI middleware support and fallback local logging"
 authors = [{ name = "Irfan Ahmad" }]
 license = "MIT"

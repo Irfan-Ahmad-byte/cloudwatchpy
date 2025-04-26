@@ -42,7 +42,7 @@ jobs:
     - build
     runs-on: ubuntu-latest
     environment:
-      name: pypi
+      name: pypi2
       url: https://pypi.org/p/cloudwatchpy
     permissions:
       id-token: write
