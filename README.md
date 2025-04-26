@@ -111,5 +111,5 @@ MIT © 2025 [Irfan Ahmad](https://github.com/Irfan-Ahmad-byte)
 
 ## 🧠 Inspired by
 
-- [`actix_logger`](https://github.com/crypsol/actix_logger) (Rust)
+- [`crypsol_logger`](https://github.com/crypsol/crypsol_logger) (Rust)
 - `structlog`, `loguru`, and `logging.handlers` (Python logging ecosystem)
