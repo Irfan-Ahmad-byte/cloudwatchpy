@@ -18,10 +18,6 @@ class Config:
         return get_env_variable("CLOUDWATCH_LOG_GROUP")
 
     @property
-    def LOG_STREAM(self):
-        return get_env_variable("CLOUDWATCH_LOG_STREAM")
-
-    @property
     def LOG_BATCH_SIZE(self):
         return int(get_env_variable("LOG_BATCH_SIZE", "10"))
 
@@ -33,8 +29,7 @@ class Config:
         return all([
             self.AWS_ACCESS_KEY_ID,
             self.AWS_SECRET_ACCESS_KEY,
-            self.LOG_GROUP,
-            self.LOG_STREAM
+            self.LOG_GROUP
         ])
 
 

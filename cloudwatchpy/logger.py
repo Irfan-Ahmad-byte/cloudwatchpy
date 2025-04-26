@@ -15,12 +15,13 @@ class PyCloudLogger:
         if Config.is_cloudwatch_enabled() and CloudWatchClient:
             self.backend = CloudWatchClient(
                 log_group=Config.LOG_GROUP,
-                log_stream=Config.LOG_STREAM,
                 region=Config.AWS_REGION,
                 compress=Config.ENABLE_COMPRESSION
             )
             self.use_cloudwatch = True
         else:
+            print("CloudWatch client not available or CloudWatch is disabled. Using fallback logger.")
+            print("Log group:", Config.LOG_GROUP, "Log stream:", Config.LOG_STREAM, "Region:", Config.AWS_REGION)
             self.backend = get_fallback_logger(name)
             self.use_cloudwatch = False
 
@@ -39,7 +40,7 @@ class PyCloudLogger:
     def _log(self, level: str, message: str, context: Optional[Dict]):
         if self.use_cloudwatch:
             log_entry = LogEntry(level, message, context)
-            self.backend.send(log_entry.to_dict())
+            self.backend.send(log_entry)
         else:
             log_func = getattr(self.backend, level.lower(), self.backend.info)
             log_func(message)

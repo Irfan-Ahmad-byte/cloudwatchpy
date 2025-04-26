@@ -1,20 +1,21 @@
+import datetime
 import boto3
 import json
 import time
 from threading import Lock
 from botocore.exceptions import ClientError
+
+from cloudwatchpy.models import LogEntry
 # from .compressor import compress_data_if_enabled  # Reserved for S3 or raw HTTP APIs
 
 class CloudWatchClient:
-    def __init__(self, log_group, log_stream, region="us-east-1", compress=True):
+    def __init__(self, log_group, region="us-east-1", compress=True):
         self.log_group = log_group
-        self.log_stream = log_stream
+        self.log_stream = "log_stream"
         self.compress = compress
         self.client = boto3.client("logs", region_name=region)
         self.sequence_token = None
         self.lock = Lock()  # For thread-safe token updates
-
-        self._ensure_log_group_stream()
 
     def _ensure_log_group_stream(self):
         # Create log group if it doesn't exist
@@ -46,9 +47,15 @@ class CloudWatchClient:
         if streams:
             self.sequence_token = streams[0].get("uploadSequenceToken")
 
-    def send(self, log_entry: dict):
+    def send(self, log_entry: LogEntry):
         # Prepare message in expected format
-        timestamp = int(time.time() * 1000)
+        timestamp = int(time.time() * 1000)  # Current time in milliseconds
+        self.log_stream = f"{datetime.datetime.now(datetime.timezone.utc).date()}-{log_entry.level}"
+        
+        # Ensure log group and stream exist
+        self._ensure_log_group_stream()
+        
+        log_entry = log_entry.to_dict()
         message = json.dumps(log_entry)
 
         event = {
