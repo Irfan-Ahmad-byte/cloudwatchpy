@@ -18,7 +18,7 @@ Structured Python logger with AWS CloudWatch support and a fallback to local JSO
 ## 🚀 Installation
 
 ```bash
-pip install pycloudwatch
+pip install cloudwatchpy
 ```
 
 ---
