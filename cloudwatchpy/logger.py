@@ -21,7 +21,6 @@ class PyCloudLogger:
             self.use_cloudwatch = True
         else:
             print("CloudWatch client not available or CloudWatch is disabled. Using fallback logger.")
-            print("Log group:", Config.LOG_GROUP, "Log stream:", Config.LOG_STREAM, "Region:", Config.AWS_REGION)
             self.backend = get_fallback_logger(name)
             self.use_cloudwatch = False
 
